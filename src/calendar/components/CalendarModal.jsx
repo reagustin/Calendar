@@ -9,7 +9,7 @@ import DatePicker, {registerLocale} from "react-datepicker";
 import Modal from 'react-modal';
 
 import es from 'date-fns/locale/es';
-import { useUiStore } from "../../hooks";
+import { useCalendarStore, useUiStore } from "../../hooks";
 
 
 
@@ -32,6 +32,8 @@ Modal.setAppElement('#root');
 export const CalendarModal = () => {
     
     const { isDateModalOpen, closeDateModal } = useUiStore();
+    const { activeEvent, startSavingEvent } = useCalendarStore();
+    
     
     const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -51,7 +53,14 @@ export const CalendarModal = () => {
     }    
     , [formValues.title, formSubmitted])
 
-    const onInputChange = ({target}) => {
+    useEffect(() => {
+      if (activeEvent !== null) {
+        setFormValues({...activeEvent});
+      }      
+    }, [activeEvent])
+    
+
+    const onInputChanged = ({target}) => {
         setFormValues({
             ...formValues,
             [target.name]: target.value
@@ -69,7 +78,7 @@ export const CalendarModal = () => {
         closeDateModal();             
     }
 
-    const onSubmit = (event) => {
+    const onSubmit = async(event) => {
         event.preventDefault();
         setFormSubmitted(true);
 
@@ -85,8 +94,9 @@ export const CalendarModal = () => {
         console.log(formValues);
 
         // TODO:
-        // cerrar modal
-        // Remover errores en pantalla
+        await startSavingEvent(formValues);
+        closeDateModal();
+        setFormSubmitted(false);
         
     }
 
@@ -160,7 +170,7 @@ export const CalendarModal = () => {
                     name="title"
                     autoComplete="off"
                     value={formValues.title}
-                    onChange={onInputChange}
+                    onChange={onInputChanged}
                 />
                 <small id="emailHelp" className="form-text text-muted">Una descripción corta</small>
             </div>
@@ -173,7 +183,7 @@ export const CalendarModal = () => {
                     rows="5"
                     name="notes"
                     value={formValues.notes}
-                    onChange={onInputChange}
+                    onChange={onInputChanged}
                 ></textarea>
                 <small id="emailHelp" className="form-text text-muted">Información adicional</small>
             </div>
