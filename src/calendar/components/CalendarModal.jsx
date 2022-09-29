@@ -31,8 +31,8 @@ Modal.setAppElement('#root');
 
 export const CalendarModal = () => {
     
-    const { isDateModalOpen, closeDateModal } = useUiStore();
-    const { activeEvent, startSavingEvent } = useCalendarStore();
+    const { isDateModalOpen, closeDateModal } = useUiStore(); //! y aca... NRO 2
+    const { activeEvent, startSavingEvent, setClickOutside } = useCalendarStore();
     
     
     const [formSubmitted, setFormSubmitted] = useState(false);
@@ -75,7 +75,8 @@ export const CalendarModal = () => {
     }
 
     const onCloseModal = () => {
-        closeDateModal();             
+        closeDateModal();             //! estoy aca... NRO 1
+        setClickOutside();  //! de aca me tengo que bifurcar al calendar store y luego al slice 
     }
 
     const onSubmit = async(event) => {

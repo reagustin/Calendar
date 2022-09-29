@@ -11,7 +11,7 @@ import { useUiStore, useCalendarStore } from '../../hooks';
 export const CalendarPage = () => {
 
   const { openDateModal } = useUiStore();
-  const { events, setActiveEvent } = useCalendarStore();
+  const { events, setActiveEvent, setClickOutside } = useCalendarStore();
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week')
 
   
@@ -43,6 +43,12 @@ export const CalendarPage = () => {
     setLastView(event);    
   }
 
+  // preguntar a Fernando como usar el onSelect Slot.
+  const onUnSelectEvent = () => {
+    console.log('onUnSelect');
+    setClickOutside();     
+  }
+
   return (
     <>
       <Navbar/>
@@ -64,6 +70,7 @@ export const CalendarPage = () => {
         onDoubleClickEvent={onDoubleClick}
         onSelectEvent={onSelect}
         onView={onViewChanged}
+        onSelectSlot={onUnSelectEvent}                        
       />
 
       <CalendarModal/>

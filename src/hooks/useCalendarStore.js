@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { onAddNewEvent, onDeleteEvent, onSetActiveEvent, onUpdateEvent } from "../store";
+import { onAddNewEvent, onDeleteEvent, onSetActiveEvent, onUnselectEvent, onUpdateEvent } from "../store";
 
 
 export const useCalendarStore = () => {
@@ -35,6 +35,10 @@ export const useCalendarStore = () => {
       
       dispatch(onDeleteEvent());
     }
+
+    const setClickOutside = () => {
+      dispatch(onUnselectEvent())
+    }
     
   return {
     //*Properties
@@ -46,5 +50,6 @@ export const useCalendarStore = () => {
     setActiveEvent,
     startSavingEvent,
     startDeletingEvent,
+    setClickOutside,
   }
 }

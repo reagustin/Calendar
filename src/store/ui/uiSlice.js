@@ -8,12 +8,10 @@ export const uiSlice = createSlice({
     },
     reducers: {
         onOpenDateModal: (state) => {
-            state.isDateModalOpen = true;
-            state.isModalClosed = false;
+            state.isDateModalOpen = true;            
         },        
         onCloseDateModal: (state) => {
-            state.isDateModalOpen = false;
-            state.isModalClosed = true;
+            state.isDateModalOpen = false;                        
         },        
     }
 });
